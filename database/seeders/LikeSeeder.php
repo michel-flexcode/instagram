@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Like;
 use Illuminate\Database\Seeder;
 
 class LikeSeeder extends Seeder
@@ -12,6 +13,8 @@ class LikeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Like::factory()
+            ->count(50)
+            ->create();
     }
 }
