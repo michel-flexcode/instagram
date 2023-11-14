@@ -20,7 +20,7 @@ class CommentFactory extends Factory
     {
         return [
             'user_id' => User::get()->random()->id,
-            'post_id' => User::get()->random()->id,
+            'post_id' => Post::get()->random()->id,
             'content' => $this->faker->realTextBetween($minNbChars = 50, $maxNbChars = 144),
             'date' => $this->faker->dateTimeBetween('-1 month', '+ 1 month'),
         ];
