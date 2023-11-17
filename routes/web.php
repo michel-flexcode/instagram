@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', [HomepageController::class, 'index']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
