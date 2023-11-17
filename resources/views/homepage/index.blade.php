@@ -1,6 +1,7 @@
 <h1>Liste des articles</h1>
 <ul>
-    @foreach ($posts as $article)
-        <li>{{ $article->title }}</li>
+    @foreach ($posts as $post)
+        <li>{{ $post->image_url }}</li>
+        <li>{{ $post->description }}</li>
     @endforeach
 </ul>
