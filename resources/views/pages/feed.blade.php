@@ -1,5 +1,5 @@
 <x-user-layout>
-
+    <h1>Liste des posts</h1>
     <ul class="grid sm:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-1 justify-center">
         @foreach ($posts as $post)
             <li class="mb-4"> <!-- Ajout de la classe mb-4 pour l'espace en bas -->
@@ -13,4 +13,6 @@
             </li>
         @endforeach
     </ul>
+
+
 </x-user-layout>
