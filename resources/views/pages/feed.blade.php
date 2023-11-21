@@ -13,6 +13,8 @@
             </li>
         @endforeach
     </ul>
-
+    <div class="mt-8">
+        {{ $posts->links() }}
+    </div>
 
 </x-user-layout>
