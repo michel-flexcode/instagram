@@ -58,8 +58,13 @@
                         <span>Instameme</span>
                     </a>
                 </div>
-                <div class="flex items-center space-x-4 justify-end">
-                    <a class="font-bold hover:text-emerald-600 transition" href="/">Posts</a>
+
+                <div class="flex items-center space-x-4">
+
+                    <a href="{{ route('login') }}"
+                        class="font-medium text-gray-600 hover:text-gray-500 transition">Login</a>
+                    <a href="{{ route('register') }}"
+                        class="font-medium text-gray-600 hover:text-gray-500 transition">Register</a>
                 </div>
             </nav>
 
