@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 
-class HomepageController extends Controller
+class FeedController extends Controller
 {
-    public function index()
+    public function feed()
     {
         $posts = Post::all();
 
