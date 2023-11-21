@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomepageController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->get('/feed', [FeedController::class, 'feed'])->name('feed');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('posts', PostController::class)->except(['index', 'show']);
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

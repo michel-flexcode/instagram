@@ -7,7 +7,6 @@
                     href="#">
 
                     {{ $post->user->name }}
-                    <br>
                     {{ $post->image_url }}
                     {{ $post->description }}
                 </a>
