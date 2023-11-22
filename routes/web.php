@@ -36,4 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// // Code rajouté personnel attention NE FONCTIONNE PAS
+// Route::get('/post', [FeedController::class, 'index'])->name('feed.index');
+// Route::get('/posts/{id}', [FeedController::class, 'show'])->name('feed.show');
+
 require __DIR__ . '/auth.php';

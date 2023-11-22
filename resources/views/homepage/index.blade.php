@@ -15,4 +15,8 @@
         <a href="{{ route('login') }}" class="font-medium text-gray-600 hover:text-gray-500 transition">Login</a>
         <a href="{{ route('register') }}" class="font-medium text-gray-600 hover:text-gray-500 transition">Register</a>
     </div> --}}
+    <h1>Bienvenue sur Instameme !</h1>
+    <p>Connectez-vous
+    <p>
+
 </x-guest-layout>
