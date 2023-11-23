@@ -14,8 +14,8 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('posts.store') }}" class="flex flex-col space-y-4 text-gray-500">
-
+            <form method="POST" action="{{ route('posts.store') }}" class="flex flex-col space-y-4 text-gray-500"
+                enctype="multipart/form-data">
                 @csrf
 
                 <div>
@@ -38,6 +38,11 @@
                         class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                         name="body" rows="10">{{ old('body') }}</textarea>
                     <x-input-error :messages="$errors->get('body')" class="mt-2" />
+                </div>
+
+                <div>
+                    <label for="'image">image</label>
+                    <input type="file" id="image" name="image">
                 </div>
 
                 <div class="flex justify-end">
