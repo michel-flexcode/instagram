@@ -26,7 +26,12 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        //dd($request->all()); // Inspect the entire request
+
         $request->user()->fill($request->validated());
+        $request->user()->biography = $request->biography;
+
+        //dd($request->user()); // Inspect the user model before saving
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -35,6 +40,25 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    public function updateAvatar(Request $request): RedirectResponse
+    {
+        dd($request);
+        // Validation de l'image sans passer par une form request
+        $request->validate([
+            'avatar' => ['required', 'image', 'max:2048'],
+        ]);
+
+        // Si l'image est valide, on la sauvegarde
+        if ($request->hasFile('avatar')) {
+            $user = $request->user();
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $user->profile_photo = $path;
+            $user->save();
+        }
+
+        return Redirect::route('profile.edit')->with('status', 'avatar-updated');
     }
 
     /**

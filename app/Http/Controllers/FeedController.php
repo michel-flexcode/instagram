@@ -24,4 +24,17 @@ class FeedController extends Controller
             'post' => $post,
         ]);
     }
+    //         Public function udpdate (Post $post, FormpostsRequest  $request)
+    //     {   $data = request->validated();
+    //         /** @var UploadedFile | null $image */
+    //         $image = $request->validated('image');
+    //         $dd = $data;
+    //         $post->update($data);
+    //         $post->tags()->sync($request->validated('tags'));
+    //         return redirect()->route('blog.show',['slug'->$post->slug,'post'->$post->$id])->width('success', "Le post a été")
+    // //dd($data) permet de vérrifier si cest envoyer
+
+    // //  /** @var UploadedFile | null $image */
+    // // $image = request->validated(‘image’);}
+
 }

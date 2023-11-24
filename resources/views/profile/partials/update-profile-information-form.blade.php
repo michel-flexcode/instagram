@@ -94,9 +94,9 @@
         </div>
 
         <div>
-            <x-input-label for="bio" :value="__('Biography')" />
-            <textarea id="bio" name="bio" class="mt-1 block w-full">{{ old('bio', $user->bio) }}</textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+            <x-input-label for="biography" :value="__('Biography')" />
+            <textarea id="biography" name="biography" class="mt-1 block w-full">{{ old('bio', $user->bio) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('biography')" />
         </div>
 
         <div>
