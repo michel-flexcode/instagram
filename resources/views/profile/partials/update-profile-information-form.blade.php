@@ -99,11 +99,11 @@
             <x-input-error class="mt-2" :messages="$errors->get('biography')" />
         </div>
 
-        <div>
+        {{-- <div>
             <x-input-label for="image" :value="__('Profile Image')" />
             <input type="file" id="image" name="image" class="mt-1 block w-full" />
             <x-input-error class="mt-2" :messages="$errors->get('image')" />
-        </div>
+        </div> --}}
 
         <!-- Le reste du formulaire reste inchangé -->
 

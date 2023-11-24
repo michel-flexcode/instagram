@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
 
 // // Code rajouté personnel attention NE FONCTIONNE PAS
 // Route::get('/post', [FeedController::class, 'index'])->name('feed.index');
-// Route::get('/posts/{id}', [FeedController::class, 'show'])->name('feed.show');
+// routes/web.php
+
+Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
 
 require __DIR__ . '/auth.php';

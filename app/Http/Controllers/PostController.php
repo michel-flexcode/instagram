@@ -57,12 +57,19 @@ class PostController extends Controller
         return redirect()->route('feed');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
+    //Code legacy
+    // /**
+    //  * Display the specified resource.
+    //  */
+    // public function show(Post $post)
+    // {
+    //     //
+    // }
+    // function non officielle
+    public function show($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return view('posts.show', compact('post'));
     }
 
     /**
