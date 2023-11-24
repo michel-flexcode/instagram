@@ -66,9 +66,15 @@ class PostController extends Controller
     //     //
     // }
     // function non officielle
-    public function show($id)
+    // public function show($id)
+    // {
+    //     $post = Post::findOrFail($id);
+    //     return view('posts.show', compact('post'));
+    // }
+
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::findOrFail($post);
         return view('posts.show', compact('post'));
     }
 

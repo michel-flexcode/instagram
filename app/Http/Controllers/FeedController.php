@@ -10,20 +10,22 @@ class FeedController extends Controller
 {
     public function feed()
     {
-        $posts = Post::paginate(2);
+        $posts = Post::paginate(4);
 
         return view('pages.feed', [
             'posts' => $posts,
         ]);
     }
-    public function show($id)
-    {
-        $post = Post::findOrFail($id);
+    // public function show($id)
+    // {
+    // }
 
-        return view('posts.show', [
-            'post' => $post,
-        ]);
+    public function show(Post $post)
+    {
+        $post = Post::findOrFail($post);
+        return view('posts.show', compact('post'));
     }
+
     //         Public function udpdate (Post $post, FormpostsRequest  $request)
     //     {   $data = request->validated();
     //         /** @var UploadedFile | null $image */

@@ -26,6 +26,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('posts', PostController::class)->except(['index', 'show']);
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
+});
+
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -40,7 +46,5 @@ Route::middleware('auth')->group(function () {
 // // Code rajouté personnel attention NE FONCTIONNE PAS
 // Route::get('/post', [FeedController::class, 'index'])->name('feed.index');
 // routes/web.php
-
-Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
 
 require __DIR__ . '/auth.php';
