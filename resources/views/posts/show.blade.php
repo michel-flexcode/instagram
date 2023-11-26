@@ -1,14 +1,13 @@
-<x-user-layout>
+@extends('layouts.app')
 
-    <!-- show.blade.php -->
+@section('content')
+    <h1>{{ $post->title }}</h1>
+    <p>{{ $post->description }}</p>
 
-    @extends('layouts.app')
+    <!-- Add other post details as needed -->
 
-    @section('content')
-        <h1>{{ $post->name }}</h1>
-        <p>{{ $post->description }}</p>
-        <!-- Ajoutez d'autres détails du post selon vos besoins -->
-    @endsection
-
-
-</x-user-layout>
+    <h2>Comments</h2>
+    @foreach ($descriptions as $description)
+        <p>{{ $description->content }} by {{ $description->user->name }}</p>
+    @endforeach
+@endsection

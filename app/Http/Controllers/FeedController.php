@@ -20,11 +20,20 @@ class FeedController extends Controller
     // {
     // }
 
-    public function show(Post $post)
+    public function show($id)
     {
-        $post = Post::findOrFail($post);
-        return view('posts.show', compact('post'));
+        // Fetch a single post by its ID
+        $post = Post::findOrFail($id);
+
+        // Fetch comments for the post
+        $descriptions = $post->descriptions()->with('user')->orderBy('created_at')->get();
+
+        return view('posts.show', [
+            'post' => $post,
+            'descriptions' => $descriptions,
+        ]);
     }
+
 
     //         Public function udpdate (Post $post, FormpostsRequest  $request)
     //     {   $data = request->validated();
