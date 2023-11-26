@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Http\Requests\PostCreateRequest;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,13 +14,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $articles = Post::orderByDesc('updated_at')
+        $posts = Post::orderByDesc('updated_at')
             ->paginate(10);
 
         return view(
             'admin.articles.index',
             [
-                'articles' => $articles,
+                'posts' => $posts,
             ]
         );
     }
@@ -28,34 +30,52 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRequest $request)
+    // public function store(PostRequest $request)
+    // {
+    //     // On crée un nouvel ^post
+    //     $posts = Post::make();
+
+    //     // On ajoute les propriétés de l'article
+    //     $posts->description = $request->validated()['text'];
+    //     $posts->user_id = Auth::id();
+
+
+    //     // Si il y a une image, on la sauvegarde
+    //     if ($request->hasFile('img')) {
+    //         $path = $request->file('img')->store('posts', 'public');
+    //         $posts->img = $path;
+    //     }
+
+    //     // On sauvegarde l'article en base de données
+    //     $posts->save();
+
+    //     //pas sur de laa redicrection
+    //     return redirect()->route('feed');
+    // }
+    public function store(PostCreateRequest $request) // Utilisez la classe de demande pour Post
     {
-        // On crée un nouvel ^post
-        $posts = Post::make();
+        $post = post::make();
+        $post->description = $request->validated()['description']; // Utilisez le nom du champ correct
+        $post->user_id = Auth::id();
 
-        // On ajoute les propriétés de l'article
-        $posts->description = $request->validated()['text'];
-        $posts->user_id = Auth::id();
-
-
-        // Si il y a une image, on la sauvegarde
+        // Si une image est présente, sauvegardez-la
         if ($request->hasFile('img')) {
             $path = $request->file('img')->store('posts', 'public');
-            $posts->img = $path;
+            $post->img = $path;
         }
 
-        // On sauvegarde l'article en base de données
-        $posts->save();
+        $post->save();
 
-        //pas sur de laa redicrection
-        return redirect()->route('feed');
+        return redirect()->route('feed'); // Assurez-vous que la redirection pointe vers la bonne route
     }
+
+
 
     //Code legacy
     // /**
