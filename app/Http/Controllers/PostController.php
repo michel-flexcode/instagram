@@ -18,7 +18,7 @@ class PostController extends Controller
             ->paginate(10);
 
         return view(
-            'admin.articles.index',
+            'posts.index',
             [
                 'posts' => $posts,
             ]
@@ -58,22 +58,17 @@ class PostController extends Controller
     //     //pas sur de laa redicrection
     //     return redirect()->route('feed');
     // }
-    public function store(PostCreateRequest $request) // Utilisez la classe de demande pour Post
+    public function store(PostCreateRequest $request)
     {
-        $post = post::make();
-        $post->description = $request->validated()['description']; // Utilisez le nom du champ correct
+        $post = Post::make();
+        $post->description = $request->validated()['description'];
         $post->user_id = Auth::id();
-
-        // Si une image est présente, sauvegardez-la
-        if ($request->hasFile('img')) {
-            $path = $request->file('img')->store('posts', 'public');
-            $post->img = $path;
-        }
-
         $post->save();
 
-        return redirect()->route('feed'); // Assurez-vous que la redirection pointe vers la bonne route
+        return redirect()->route('feed.index');
     }
+
+
 
 
 

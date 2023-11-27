@@ -9,13 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // Attention ne devrais pas être nullable $table->string('image_url')->default('')->nullable();
+
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('description');
-            $table->string('image_url');
+            $table->string('image_url')->default('')->nullable();
             $table->string('localisation');
             $table->date('date');
             $table->timestamps();

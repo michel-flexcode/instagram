@@ -18,13 +18,6 @@
                 enctype="multipart/form-data">
                 @csrf
 
-                {{-- <div>
-                    <x-input-label for="name" :value="__('Nom')" />
-                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
-                        :value="old('name')" autofocus />
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                </div> --}}
-
                 <div>
                     <x-input-label for="description" :value="__('Description')" />
                     <x-text-input id="description" class="block mt-1 w-full" type="text" name="description"
@@ -32,7 +25,24 @@
                     <x-input-error :messages="$errors->get('description')" class="mt-2" />
                 </div>
 
-                {{-- <div>
+                <div class="flex justify-end">
+                    <x-primary-button type="submit">
+                        {{ __('Créer') }}
+                    </x-primary-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</x-user-layout>
+
+{{-- <div>
+                    <x-input-label for="name" :value="__('Nom')" />
+                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
+                        :value="old('name')" autofocus />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div> --}}
+
+{{-- <div>
                     <x-input-label for="published_at" :value="__('Date de publication')" />
                     <x-text-input id="published_at" class="block mt-1 w-full" type="date" name="published_at"
                         :value="old('published_at')" />
@@ -52,13 +62,3 @@
                     <x-file-input id="img" class="block mt-1 w-full" type="file" name="img" />
                     <x-input-error :messages="$errors->get('img')" class="mt-2" />
                 </div> --}}
-
-                <div class="flex justify-end">
-                    <x-primary-button type="submit">
-                        {{ __('Créer') }}
-                    </x-primary-button>
-                </div>
-            </form>
-        </div>
-    </div>
-</x-user-layout>
