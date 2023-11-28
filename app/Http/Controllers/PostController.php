@@ -56,12 +56,28 @@ class PostController extends Controller
     }
 
 
+    // public function show($id)
+    // {
+    //     $post = Post::findOrFail($id);
+
+    //     return view('posts.show', [
+    //         'post' => $post,
+    //     ]);
+    // }
     public function show($id)
     {
         $post = Post::findOrFail($id);
 
+        // Load the comments for the post, including the associated user
+        $comments = $post
+            ->comments()
+            ->with('user')
+            ->orderBy('created_at')
+            ->get();
+
         return view('posts.show', [
             'post' => $post,
+            'comments' => $comments,
         ]);
     }
 
