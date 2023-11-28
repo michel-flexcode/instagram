@@ -10,7 +10,7 @@ class FeedController extends Controller
 {
     public function feed()
     {
-        $posts = Post::paginate(4);
+        $posts = Post::paginate(8);
 
         return view('pages.feed', [
             'posts' => $posts,

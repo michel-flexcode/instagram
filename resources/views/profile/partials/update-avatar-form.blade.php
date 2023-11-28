@@ -6,7 +6,7 @@
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __('Here you can change your avatar. It will be displayed on your
-                  profile and on your articles.') }}
+                                                      profile and on your articles.') }}
         </p>
     </header>
 
@@ -14,8 +14,9 @@
         @csrf @method('patch')
 
         <div class="flex flex-col space-y-2">
-            <x-avatar :user="$user" class="h-20 w-20"></x-avatar>
 
+            <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Photo de profil"
+                class="w-20 h-20 rounded-full">
             <div class="">
                 <label for="avatar" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
                     {{ __('Avatar') }}

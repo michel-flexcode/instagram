@@ -37,13 +37,7 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      */
     // public function store(PostRequest $request)
-    // {
-    //     // On crée un nouvel ^post
-    //     $posts = Post::make();
 
-    //     // On ajoute les propriétés de l'article
-    //     $posts->description = $request->validated()['text'];
-    //     $posts->user_id = Auth::id();
 
 
     //     // Si il y a une image, on la sauvegarde
@@ -52,12 +46,6 @@ class PostController extends Controller
     //         $posts->img = $path;
     //     }
 
-    //     // On sauvegarde l'article en base de données
-    //     $posts->save();
-
-    //     //pas sur de laa redicrection
-    //     return redirect()->route('feed');
-    // }
     public function store(PostCreateRequest $request)
     {
         $post = Post::make();
@@ -65,7 +53,7 @@ class PostController extends Controller
         $post->user_id = Auth::id();
         $post->save();
 
-        return redirect()->route('feed.index');
+        return redirect()->route('feed');
     }
 
 

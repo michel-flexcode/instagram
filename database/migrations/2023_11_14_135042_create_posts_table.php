@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('description');
             $table->string('image_url')->default('')->nullable();
-            $table->string('localisation');
-            $table->date('date');
+            $table->string('localisation')->default('')->nullable();
+            $table->date('date')->nullable(); // Suppression de la valeur par défaut pour le champ date
             $table->timestamps();
         });
     }
