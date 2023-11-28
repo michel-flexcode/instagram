@@ -46,35 +46,23 @@ class PostController extends Controller
     {
         $post = Post::make();
         $post->description = $request->validated()['description'];
+        $post->image_url = $request->validated()['image_url'];
+        $post->localisation = $request->validated()['localisation'];
+        $post->date = $request->validated()['date'];
         $post->user_id = Auth::id();
         $post->save();
 
-        return redirect()->route('feed');
+        return redirect()->route('posts.index');
     }
 
 
-
-
-
-    //Code legacy
-    // /**
-    //  * Display the specified resource.
-    //  */
-    // public function show(Post $post)
-    // {
-    //     //
-    // }
-    // function non officielle
-    // public function show($id)
-    // {
-    //     $post = Post::findOrFail($id);
-    //     return view('posts.show', compact('post'));
-    // }
-
-    public function show(Post $post)
+    public function show($id)
     {
-        $post = Post::findOrFail($post);
-        return view('posts.show', compact('post'));
+        $post = Post::findOrFail($id);
+
+        return view('posts.show', [
+            'post' => $post,
+        ]);
     }
 
     /**
@@ -82,7 +70,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -90,7 +78,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $post->description = $request->validated()['description'];
+        $post->image_url = $request->validated()['image_url'];
+        $post->localisation = $request->validated()['localisation'];
+        $post->date = $request->validated()['date'];
+        $post->save();
+
+        return redirect()->route('posts.index');
     }
 
     /**

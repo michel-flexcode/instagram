@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\FeedController;
+// use App\Http\Controllers\FeedController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomepageController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/feed', [FeedController::class, 'feed'])->name('feed');
+    //Les routes sont TOUTES incluses sauf INDEX SHOW
     Route::resource('posts', PostController::class)->except(['index', 'show']);
 
-    // Les routes ci-dessous sont maintenant incluses dans le middleware 'auth'
-    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    // Les routes ci-dessous sont incluses en dernier, ça évite quelques problèmes
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
     Route::get('/dashboard', function () {
