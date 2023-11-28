@@ -36,10 +36,6 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(PostRequest $request)
-
-
-
     //     // Si il y a une image, on la sauvegarde
     //     if ($request->hasFile('img')) {
     //         $path = $request->file('img')->store('posts', 'public');

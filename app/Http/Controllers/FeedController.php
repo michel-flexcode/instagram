@@ -16,9 +16,6 @@ class FeedController extends Controller
             'posts' => $posts,
         ]);
     }
-    // public function show($id)
-    // {
-    // }
 
     public function show($id)
     {
