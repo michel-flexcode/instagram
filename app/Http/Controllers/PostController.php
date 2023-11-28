@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Http\Requests\PostCreateRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\PostUpdateRequest;
 
 class PostController extends Controller
 {
@@ -76,7 +76,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
         $post->description = $request->validated()['description'];
         $post->image_url = $request->validated()['image_url'];
