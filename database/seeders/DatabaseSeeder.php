@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LikeSeeder::class,
         ]);
-        $this->call([
-            FollowerSeeder::class,
-        ]);
+        //     $this->call([
+        //         FollowerSeeder::class,
+        //     ]);
     }
 }
