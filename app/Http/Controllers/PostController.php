@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Models\Comment;
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Http\Requests\CommentCreateRequest;
 
 class PostController extends Controller
 {
@@ -56,14 +58,23 @@ class PostController extends Controller
     }
 
 
-    // public function show($id)
-    // {
-    //     $post = Post::findOrFail($id);
 
-    //     return view('posts.show', [
-    //         'post' => $post,
-    //     ]);
-    // }
+
+    public function addComment(CommentCreateRequest $request, Post $post)
+    {
+        // Le reste de votre code pour créer et sauvegarder le commentaire
+        $comment = new Comment([
+            'content' => $request->validated()['content'],
+            'user_id' => Auth::id(),
+        ]);
+
+        $post->comments()->save($comment);
+
+        return redirect()->route('posts.show', $post->id);
+    }
+
+
+
     public function show($id)
     {
         $post = Post::findOrFail($id);

@@ -31,5 +31,13 @@ class DatabaseSeeder extends Seeder
         //     $this->call([
         //         FollowerSeeder::class,
         //     ]);
+
+
+        // $this->call([
+        //     RoleSeeder::class,
+        //     UserSeeder::class,
+        //     ArticleSeeder::class,
+        //     CommentSeeder::class,
+        // ]);
     }
 }

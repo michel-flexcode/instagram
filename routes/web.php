@@ -16,6 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
+    //test
+    Route::post('/posts/{post}/comments', [PostController::class, 'addComment'])->name('posts.comments.add');
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
