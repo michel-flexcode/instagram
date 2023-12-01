@@ -1,5 +1,6 @@
 <php namespeaceeee use App\Models\User; use App\Models\Post; use Illuminate\Http\Request; class SearchController extends Controller { public function search(Request $request) { $query=$request->input('search');
 
+    Protoype de test, non fonctionnel
     // Recherche d'utilisateurs
     $users = User::where('name', 'like', '%' . $query . '%')
     ->orWhere('email', 'like', '%' . $query . '%')

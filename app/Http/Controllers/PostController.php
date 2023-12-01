@@ -10,6 +10,9 @@ use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Http\Requests\CommentCreateRequest;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
+
 class PostController extends Controller
 {
     /**
@@ -28,28 +31,144 @@ class PostController extends Controller
     //     );
     // }
 
+    // public function index(Request $request)
+    // {
+    //     // If there is a search term, apply search filters
+    //     if ($request->has('search')) {
+    //         $searchTerm = $request->query('search');
+
+    //         // Perform the search on the database
+    //         $posts = Post::where('description', 'like', '%' . $searchTerm . '%')
+    //             ->orWhereHas('user', function ($query) use ($searchTerm) {
+    //                 $query->where('name', 'like', '%' . $searchTerm . '%');
+    //             })
+    //             ->orWhere('localisation', 'like', '%' . $searchTerm . '%')
+    //             ->orderByDesc('updated_at')
+    //             ->paginate(10);
+    //     } else {
+    //         // If no search term, fetch all posts
+    //         $posts = Post::orderByDesc('updated_at')->paginate(10);
+    //     }
+
+    //     return view('posts.index', ['posts' => $posts]);
+    // }
+
+    // public function index(Request $request)
+    // {
+    //     // Get the authenticated user
+    //     $user = auth()->user();
+
+    //     // Get the IDs of users followed by the authenticated user
+    //     $followingIds = $user->following()->pluck('users.id');
+
+    //     // If there is a search term, apply search filters
+    //     if ($request->has('search')) {
+    //         $searchTerm = $request->query('search');
+
+    //         // Perform the search on the database for users followed
+    //         $postsFollowed = Post::whereIn('user_id', $followingIds)
+    //             ->where(function ($query) use ($searchTerm) {
+    //                 $query->where('description', 'like', '%' . $searchTerm . '%')
+    //                     ->orWhere('localisation', 'like', '%' . $searchTerm . '%');
+    //             })
+    //             ->orderByDesc('updated_at')
+    //             ->paginate(10);
+
+    //         // Perform the search on the database for all posts
+    //         $postsAll = Post::where(function ($query) use ($searchTerm) {
+    //             $query->where('description', 'like', '%' . $searchTerm . '%')
+    //                 ->orWhere('localisation', 'like', '%' . $searchTerm . '%');
+    //         })
+    //             ->orderByDesc('updated_at')
+    //             ->paginate(10);
+    //     } else {
+    //         // If no search term, fetch posts for users followed
+    //         $postsFollowed = Post::whereIn('user_id', $followingIds)
+    //             ->orderByDesc('updated_at')
+    //             ->paginate(10);
+
+    //         // Fetch all posts
+    //         $postsAll = Post::orderByDesc('updated_at')->paginate(10);
+    //     }
+
+    //     // Merge the two sets of posts and remove duplicates
+    //     $mergedPosts = $postsFollowed->merge($postsAll)->unique('id');
+
+    //     // Sort the merged posts by updated_at in descending order
+    //     $sortedPosts = $mergedPosts->sortByDesc('updated_at');
+
+    //     // Paginate the sorted posts
+    //     $paginatedPosts = $this->paginateCollection($sortedPosts, 10);
+
+    //     return view('posts.index', ['posts' => $paginatedPosts]);
+    // }
+
     public function index(Request $request)
     {
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Get the IDs of users followed by the authenticated user
+        $followingIds = $user->following()->pluck('users.id');
+
         // If there is a search term, apply search filters
         if ($request->has('search')) {
             $searchTerm = $request->query('search');
 
-            // Perform the search on the database
-            $posts = Post::where('description', 'like', '%' . $searchTerm . '%')
-                ->orWhereHas('user', function ($query) use ($searchTerm) {
-                    $query->where('name', 'like', '%' . $searchTerm . '%');
+            // Perform the search on the database for users followed
+            $postsFollowed = Post::whereIn('user_id', $followingIds)
+                ->where(function ($query) use ($searchTerm) {
+                    $query->whereHas('user', function ($userQuery) use ($searchTerm) {
+                        $userQuery->where('name', 'like', '%' . $searchTerm . '%');
+                    })
+                        ->orWhere('description', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('localisation', 'like', '%' . $searchTerm . '%');
                 })
-                ->orWhere('localisation', 'like', '%' . $searchTerm . '%')
                 ->orderByDesc('updated_at')
-                ->paginate(10);
+                ->get();
+
+            // Perform the search on the database for all posts
+            $postsAll = Post::where(function ($query) use ($searchTerm) {
+                $query->whereHas('user', function ($userQuery) use ($searchTerm) {
+                    $userQuery->where('name', 'like', '%' . $searchTerm . '%');
+                })
+                    ->orWhere('description', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('localisation', 'like', '%' . $searchTerm . '%');
+            })
+                ->orderByDesc('updated_at')
+                ->get();
         } else {
-            // If no search term, fetch all posts
-            $posts = Post::orderByDesc('updated_at')->paginate(10);
+            // If no search term, fetch posts for users followed
+            $postsFollowed = Post::whereIn('user_id', $followingIds)
+                ->orderByDesc('updated_at')
+                ->get();
+
+            // Fetch all posts
+            $postsAll = Post::orderByDesc('updated_at')->get();
         }
 
-        return view('posts.index', ['posts' => $posts]);
+        // Merge the two sets of posts and remove duplicates
+        $mergedPosts = $postsFollowed->merge($postsAll)->unique('id');
+
+        // Sort the merged posts by updated_at in descending order
+        $sortedPosts = $mergedPosts->sortByDesc('updated_at');
+
+        // Paginate the sorted posts
+        $paginatedPosts = $this->paginateCollection($sortedPosts, 10);
+
+        return view('posts.index', ['posts' => $paginatedPosts]);
     }
 
+    // Helper method to paginate a collection
+    private function paginateCollection($items, $perPage)
+    {
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentItems = $items->slice(($currentPage - 1) * $perPage, $perPage)->all();
+
+        return new LengthAwarePaginator($currentItems, count($items), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
