@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,5 +81,44 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function show(User $user): View
+    {
+        // Les articles publiés par l'utilisateur
+        $posts = $user
+            ->posts()
+            // ->where('published_at', '<', now())
+            ->withCount('comments')
+            ->orderByDesc('created_at')
+            ->get();
+
+        // Les comments de l'utilisateur triés par date de création
+        $comments = $user
+            ->comments()
+            ->orderByDesc('created_at')
+            ->get();
+        //dd($comments);
+
+        // On renvoie la vue avec les données
+        return view('profile.show', [
+            'user' => $user,
+            'posts' => $posts,
+            'comments' => $comments,
+        ]);
+    }
+
+    public function follow(User $user)
+    {
+        auth()->user()->following()->attach($user);
+
+        return back();
+    }
+
+    public function unfollow(User $user)
+    {
+        auth()->user()->following()->detach($user);
+
+        return back();
     }
 }

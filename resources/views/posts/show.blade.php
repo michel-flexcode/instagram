@@ -7,7 +7,9 @@
             <img src="{{ $post->image_url }}" alt="{{ $post->description }}" class="w-full h-auto rounded-md">
         </div>
 
-        <p class="text-gray-700">{{ $post->user->name }}</p>
+        <p class="text-gray-700">
+            <a href="{{ route('profile.show', $post->user) }}" class="text-gray-700">{{ $post->user->name }}</a>
+        </p>
         <p class="text-gray-500">{{ $post->created_at->diffForHumans() }}</p>
 
         {{-- Add other details you want to display about the post --}}
