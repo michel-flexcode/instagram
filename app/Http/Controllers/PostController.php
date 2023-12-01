@@ -27,6 +27,7 @@ class PostController extends Controller
         );
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
@@ -38,11 +39,6 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    //     // Si il y a une image, on la sauvegarde
-    //     if ($request->hasFile('img')) {
-    //         $path = $request->file('img')->store('posts', 'public');
-    //         $posts->img = $path;
-    //     }
 
     public function store(PostCreateRequest $request)
     {
@@ -73,8 +69,6 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post->id);
     }
 
-
-
     public function show($id)
     {
         $post = Post::findOrFail($id);
@@ -91,6 +85,8 @@ class PostController extends Controller
             'comments' => $comments,
         ]);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -120,5 +116,37 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    // public function search(Request $request)
+    // {
+    //     $query = $request->input('query');
+
+    //     // Recherche de posts
+    //     $posts = Post::where('description', 'like', '%' . $query . '%')
+    //         ->orWhere('localisation', 'like', '%' . $query . '%')
+    //         ->orderByDesc('updated_at')
+    //         ->paginate(10);
+
+    //     return view(
+    //         'posts.index',
+    //         [
+    //             'posts' => $posts,
+    //         ]
+    //     );
+    // }
+
+    public function like(Post $post)
+    {
+        auth()->user()->likes()->create(['post_id' => $post->id]);
+
+        return back();
+    }
+
+    public function unlike(Post $post)
+    {
+        auth()->user()->likes()->where('post_id', $post->id)->delete();
+
+        return back();
     }
 }

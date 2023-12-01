@@ -10,12 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'description',
-        'user_id',
-        'image_url', // Ajoutez le champ 'image_url' ici
-        // Autres champs si nécessaire
-    ];
+    protected $fillable = ['description', 'image_url', 'localisation', 'date'];
 
     public function user()
     {
@@ -24,5 +19,18 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+
+    // protected $fillable = ['description', 'image_url', 'localisation', 'date'];
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function likedBy(User $user)
+    {
+        return $this->likes->contains('user_id', $user->id);
     }
 }

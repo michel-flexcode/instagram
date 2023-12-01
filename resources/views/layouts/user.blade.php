@@ -26,7 +26,7 @@
         </div>
 
         <div class="flex items-center space-x-4 cursor-pointer"
-            onclick="window.location.href='http://instameme.test/feed';">
+            onclick="window.location.href='http://instameme.test/posts';">
             <img src="https://placekitten.com/100/100" alt="Profile Picture" class="rounded-full w-10 h-10 mr-2">
             <div class="flex items-center space-x-4">
                 <a href="{{ route('profile.update') }}"
