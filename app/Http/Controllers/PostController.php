@@ -141,10 +141,9 @@ class PostController extends Controller
     //         // If no search term, fetch posts for users followed
     //         $postsFollowed = Post::whereIn('user_id', $followingIds)
     //             ->orderByDesc('updated_at')
-    //             ->get();
-
+    //             ->get();http://instameme.test/profile
     //         // Fetch all posts
-    //         $postsAll = Post::orderByDesc('updated_at')->get();
+    //         $postsAll = Post::orderByDesc('http://instameme.test/profilevieupdated_at')->get();
     //     }
 
     //     // Merge the two sets of posts and remove duplicates
