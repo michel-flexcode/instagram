@@ -21,7 +21,7 @@
                 class="group font-bold text-3xl flex items-center space-x-4 hover:text-emerald-600 transition">
                 <x-application-logo
                     class="w-10 h-10 fill-current text-gray-500 group-hover:text-emerald-500 transition" />
-                <span>Instameme</span>
+                <span>Instameme user.blade.php</span>
             </a>
         </div>
 
@@ -30,7 +30,7 @@
             <img src="https://placekitten.com/100/100" alt="Profile Picture" class="rounded-full w-10 h-10 mr-2">
             <div class="flex items-center space-x-4">
                 <a href="{{ route('profile.update') }}"
-                    class="font-medium text-gray-600 hover:text-gray-500 transition">{{ Auth::user()->name }}</a>
+                    class="font-medium text-gray-600 hover:text-gray-500 transition">{{ Auth::user()->name }}user.blade.php</a>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
                 <img src="https://placekitten.com/100/100" alt="Profile Picture" class="rounded-full w-10 h-10 mr-2">
                 <div class="flex items-center space-x-4">
                     <a href="{{ route('profile.update') }}"
-                        class="font-medium text-gray-600 hover:text-gray-500 transition">{{ Auth::user()->name }}</a>
+                        class="font-medium text-gray-600 hover:text-gray-500 transition">{{ Auth::user()->name }}user.blade.php</a>
                 </div>
             </a>
 
