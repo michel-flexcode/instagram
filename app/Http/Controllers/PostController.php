@@ -103,6 +103,73 @@ class PostController extends Controller
     //     return view('posts.index', ['posts' => $paginatedPosts]);
     // }
 
+    // public function index(Request $request)
+    // {
+    //     // Get the authenticated user
+    //     $user = auth()->user();
+
+    //     // Get the IDs of users followed by the authenticated user
+    //     $followingIds = $user->following()->pluck('users.id');
+
+    //     // If there is a search term, apply search filters
+    //     if ($request->has('search')) {
+    //         $searchTerm = $request->query('search');
+
+    //         // Perform the search on the database for users followed
+    //         $postsFollowed = Post::whereIn('user_id', $followingIds)
+    //             ->where(function ($query) use ($searchTerm) {
+    //                 $query->whereHas('user', function ($userQuery) use ($searchTerm) {
+    //                     $userQuery->where('name', 'like', '%' . $searchTerm . '%');
+    //                 })
+    //                     ->orWhere('description', 'like', '%' . $searchTerm . '%')
+    //                     ->orWhere('localisation', 'like', '%' . $searchTerm . '%');
+    //             })
+    //             ->orderByDesc('updated_at')
+    //             ->get();
+
+    //         // Perform the search on the database for all posts
+    //         $postsAll = Post::where(function ($query) use ($searchTerm) {
+    //             $query->whereHas('user', function ($userQuery) use ($searchTerm) {
+    //                 $userQuery->where('name', 'like', '%' . $searchTerm . '%');
+    //             })
+    //                 ->orWhere('description', 'like', '%' . $searchTerm . '%')
+    //                 ->orWhere('localisation', 'like', '%' . $searchTerm . '%');
+    //         })
+    //             ->orderByDesc('updated_at')
+    //             ->get();
+    //     } else {
+    //         // If no search term, fetch posts for users followed
+    //         $postsFollowed = Post::whereIn('user_id', $followingIds)
+    //             ->orderByDesc('updated_at')
+    //             ->get();
+
+    //         // Fetch all posts
+    //         $postsAll = Post::orderByDesc('updated_at')->get();
+    //     }
+
+    //     // Merge the two sets of posts and remove duplicates
+    //     $mergedPosts = $postsFollowed->merge($postsAll)->unique('id');
+
+    //     // Sort the merged posts by updated_at in descending order
+    //     $sortedPosts = $mergedPosts->sortByDesc('updated_at');
+
+    //     // Paginate the sorted posts
+    //     $paginatedPosts = $this->paginateCollection($sortedPosts, 10);
+
+    //     return view('posts.index', ['posts' => $paginatedPosts]);
+    // }
+
+    // // Helper method to paginate a collection
+    // private function paginateCollection($items, $perPage)
+    // {
+    //     $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    //     $currentItems = $items->slice(($currentPage - 1) * $perPage, $perPage)->all();
+
+    //     return new LengthAwarePaginator($currentItems, count($items), $perPage, $currentPage, [
+    //         'path' => LengthAwarePaginator::resolveCurrentPath(),
+    //     ]);
+    // }
+
     public function index(Request $request)
     {
         // Get the authenticated user
@@ -147,14 +214,19 @@ class PostController extends Controller
             $postsAll = Post::orderByDesc('updated_at')->get();
         }
 
+        // Get the counts of followers for each user in $postsAll
+        $userFollowerCounts = collect($postsAll)->groupBy('user_id')->map->count();
+
+        // Sort $postsAll by follower count in descending order
+        $postsAll = $postsAll->sortByDesc(function ($post) use ($userFollowerCounts) {
+            return $userFollowerCounts[$post->user_id] ?? 0;
+        });
+
         // Merge the two sets of posts and remove duplicates
         $mergedPosts = $postsFollowed->merge($postsAll)->unique('id');
 
-        // Sort the merged posts by updated_at in descending order
-        $sortedPosts = $mergedPosts->sortByDesc('updated_at');
-
-        // Paginate the sorted posts
-        $paginatedPosts = $this->paginateCollection($sortedPosts, 10);
+        // Paginate the merged and sorted posts
+        $paginatedPosts = $this->paginateCollection($mergedPosts, 10);
 
         return view('posts.index', ['posts' => $paginatedPosts]);
     }
@@ -169,6 +241,9 @@ class PostController extends Controller
             'path' => LengthAwarePaginator::resolveCurrentPath(),
         ]);
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
