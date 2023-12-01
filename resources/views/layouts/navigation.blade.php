@@ -16,20 +16,22 @@
     </div>
 
     <div class="flex items-center space-x-4 cursor-pointer">
-        <a href="http://instameme.test/posts/create" class="flex items-center space-x-4">
-            <img src="https://placekitten.com/100/100" alt="Profile Picture" class="rounded-full w-10 h-10 mr-2">
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('profile.update') }}"
-                    class="font-medium text-gray-600 hover:text-gray-500 transition">{{ Auth::user()->name }}user.blade.php</a>
+        <a href="{{ route('profile.update') }}" class="flex items-center space-x-4">
+            <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Photo de profil"
+                class="w-8 h-8 rounded-full">
+            <div class="flex items-center space-x-2">
+                <span class="font-medium text-gray-600 hover:text-gray-500 transition">{{ Auth::user()->name }}</span>
             </div>
         </a>
 
         <div>
-            <form action="{{ route('logout') }}" method="post">
-                @csrf
-                <button type="submit"
-                    class="font-medium text-gray-600 hover:text-gray-500 transition">Déconnexion</button>
-            </form>
+
+            <div>
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit"
+                        class="font-medium text-gray-600 hover:text-gray-500 transition">Déconnexion</button>
+                </form>
+            </div>
         </div>
-    </div>
 </nav>
