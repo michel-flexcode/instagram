@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Models\Comment;
+use Illuminate\Http\Request;
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Http\Requests\CommentCreateRequest;
@@ -14,17 +15,39 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $posts = Post::orderByDesc('updated_at')
-            ->paginate(10);
+    // public function index()
+    // {
+    //     $posts = Post::orderByDesc('updated_at')
+    //         ->paginate(10);
 
-        return view(
-            'posts.index',
-            [
-                'posts' => $posts,
-            ]
-        );
+    //     return view(
+    //         'posts.index',
+    //         [
+    //             'posts' => $posts,
+    //         ]
+    //     );
+    // }
+
+    public function index(Request $request)
+    {
+        // If there is a search term, apply search filters
+        if ($request->has('search')) {
+            $searchTerm = $request->query('search');
+
+            // Perform the search on the database
+            $posts = Post::where('description', 'like', '%' . $searchTerm . '%')
+                ->orWhereHas('user', function ($query) use ($searchTerm) {
+                    $query->where('name', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhere('localisation', 'like', '%' . $searchTerm . '%')
+                ->orderByDesc('updated_at')
+                ->paginate(10);
+        } else {
+            // If no search term, fetch all posts
+            $posts = Post::orderByDesc('updated_at')->paginate(10);
+        }
+
+        return view('posts.index', ['posts' => $posts]);
     }
 
 
@@ -44,16 +67,50 @@ class PostController extends Controller
     {
         $post = Post::make();
         $post->description = $request->validated()['description'];
-        $post->image_url = $request->validated()['image_url'];
         $post->localisation = $request->validated()['localisation'];
         $post->date = $request->validated()['date'];
         $post->user_id = Auth::id();
+
+        // Storing the image in the 'posts' directory
+        $path = $request->file('image')->store('posts', 'public');
+
+        // Saving the relative path (without 'public') in the database
+        $post->image_url = 'posts/' . basename($path);
+
         $post->save();
 
         return redirect()->route('posts.index');
     }
 
+    // public function store(PostCreateRequest $request)
+    // {
+    //     $post = Post::make();
+    //     $post->description = $request->validated()['description'];
+    //     $post->image_url = $request->validated()['image_url'];
+    //     $post->localisation = $request->validated()['localisation'];
+    //     $post->date = $request->validated()['date'];
+    //     $post->user_id = Auth::id();
+    //     $post->save();
 
+    //     return redirect()->route('posts.index');
+    // }
+    // {
+    //     $post = Post::make();
+    //     $post->description = $request->validated()['description'];
+    //     $post->localisation = $request->validated()['localisation'];
+    //     $post->date = $request->validated()['date'];
+    //     $post->user_id = Auth::id();
+
+    //     // Storing the image in the 'posts' directory
+    //     $path = $request->file('image')->store('posts', 'public');
+
+    //     // Saving the relative path (without 'public') in the database
+    //     $post->image_url = 'posts/' . basename($path);
+
+    //     $post->save();
+
+    //     return redirect()->route('posts.index');
+    // }
 
 
     public function addComment(CommentCreateRequest $request, Post $post)
@@ -101,10 +158,19 @@ class PostController extends Controller
      */
     public function update(PostUpdateRequest $request, Post $post)
     {
+        //$this->authorize('updatePost', $post);
+
         $post->description = $request->validated()['description'];
-        $post->image_url = $request->validated()['image_url'];
         $post->localisation = $request->validated()['localisation'];
         $post->date = $request->validated()['date'];
+
+        // Check if a new image is provided
+        if ($request->hasFile('image')) {
+            // Store the new image and update the image_url
+            $path = $request->file('image')->store('posts', 'public');
+            $post->image_url = asset('storage/' . $path);
+        }
+
         $post->save();
 
         return redirect()->route('posts.index');
@@ -149,4 +215,22 @@ class PostController extends Controller
 
         return back();
     }
+
+    // public function search(Request $request)
+    // {
+    //     $query = $request->input('search');
+
+    //     // Recherche d'utilisateurs
+    //     $users = User::where('name', 'like', '%' . $query . '%')
+    //         ->orWhere('email', 'like', '%' . $query . '%')
+    //         ->get();
+
+    //     // Recherche de posts
+    //     $posts = Post::where('description', 'like', '%' . $query . '%')
+    //         ->orWhere('localisation', 'like', '%' . $query . '%')
+    //         ->orderByDesc('updated_at')
+    //         ->paginate(10);
+
+    //     return view('search.results', compact('users', 'posts', 'query'));
+    // }
 }
