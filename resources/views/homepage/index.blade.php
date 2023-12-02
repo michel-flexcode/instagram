@@ -1,22 +1,19 @@
 <x-guest-layout>
 
-    <h1>Bienvenue sur Instameme !</h1>
+    <div class="flex items-center justify-center h-screen bg-gradient-to-b from-blue-500 to-purple-700">
+        <div class="text-center text-white">
+            <h1 class="text-4xl font-bold mb-4">Bienvenue sur Instameme !</h1>
+            <p class="text-lg mb-8">Découvrez et partagez des mèmes hilarants.</p>
 
-    {{-- <ul class="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
+            {{-- Image de test --}}
+            <img src="{{ asset('storage/defaulttest.jpeg') }}" alt="Image petite fille maison en feu" class="w-full max-w-md mx-auto rounded-md shadow-lg">
 
-        @foreach ($posts as $post)
-            <li>
-                <img src="{{ asset($post->image_url) }}" alt="{{ $post->description }}">
-            </li>
-            <li>{{ $post->description }}</li>
-        @endforeach
-
-    </ul> --}}
-
-    <p>Connectez-vous</p>
-
-    {{-- @foreach ($posts as $post)
-        <p><a href="{{ route('posts.show', ['id' => $post->id]) }}">Voir les détails</a></p>
-    @endforeach --}}
+            {{-- Formulaire de connexion --}}
+            <div class="mt-8">
+                <p class="text-lg font-semibold">Connectez-vous pour découvrir plus de contenus !</p>
+                {{-- Ajoutez ici le formulaire de connexion --}}
+            </div>
+        </div>
+    </div>
 
 </x-guest-layout>
