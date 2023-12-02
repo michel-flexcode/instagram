@@ -56,10 +56,6 @@
         @endforeach
     </ul>
 
-    @foreach ($posts as $post)
-        <p><a href="{{ route('posts.show', ['id' => $post->id]) }}">Voir les détails</a></p>
-    @endforeach
-
     <div class="mt-8">
         {{ $posts->links() }}
     </div>
