@@ -1,17 +1,25 @@
 <x-user-layout>
-    <h1>Liste des posts</h1>
-    <!-- Search Bar -->
-    <form action="{{ route('posts.index') }}" method="GET" class="mb-4">
-        <div class="flex items-center">
-            <input type="text" name="search" id="search" placeholder="Rechercher un post"
-                class="flex-grow border border-gray-300 rounded shadow px-4 py-2 mr-4" value="{{ request()->search }}"
-                autofocus />
-            <button type="submit" class="bg-white text-gray-600 px-4 py-2 rounded-lg shadow">
-                <!-- You can replace this with your own search icon -->
-                Search
-            </button>
+    <div class="flex items-center justify-center">
+
+        <div class="text-center">
+            <h1 class="text-4xl font-bold mb-6">Liste des posts index blade php</h1>
+
+            <!-- Search Bar -->
+            <div class="flex items-center justify-center mb-4">
+                <form action="{{ route('posts.index') }}" method="GET">
+
+                    <input type="text" name="search" id="search" placeholder="Rechercher un post"
+                        class="border border-gray-300 rounded shadow px-4 py-2 mr-4" value="{{ request()->search }}"
+                        autofocus />
+                    <button type="submit" class="bg-white text-gray-600 px-4 py-2 rounded-lg shadow">
+                        Search
+                    </button>
+                </form>
+            </div>
         </div>
-    </form>
+
+    </div>
+
 
     <!-- Post Listing -->
     <ul class="grid sm:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-1 gap-4 justify-center">
