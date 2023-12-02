@@ -377,24 +377,6 @@ class PostController extends Controller
         //
     }
 
-    // public function search(Request $request)
-    // {
-    //     $query = $request->input('query');
-
-    //     // Recherche de posts
-    //     $posts = Post::where('description', 'like', '%' . $query . '%')
-    //         ->orWhere('localisation', 'like', '%' . $query . '%')
-    //         ->orderByDesc('updated_at')
-    //         ->paginate(10);
-
-    //     return view(
-    //         'posts.index',
-    //         [
-    //             'posts' => $posts,
-    //         ]
-    //     );
-    // }
-
     public function like(Post $post)
     {
         auth()->user()->likes()->create(['post_id' => $post->id]);
@@ -408,22 +390,4 @@ class PostController extends Controller
 
         return back();
     }
-
-    // public function search(Request $request)
-    // {
-    //     $query = $request->input('search');
-
-    //     // Recherche d'utilisateurs
-    //     $users = User::where('name', 'like', '%' . $query . '%')
-    //         ->orWhere('email', 'like', '%' . $query . '%')
-    //         ->get();
-
-    //     // Recherche de posts
-    //     $posts = Post::where('description', 'like', '%' . $query . '%')
-    //         ->orWhere('localisation', 'like', '%' . $query . '%')
-    //         ->orderByDesc('updated_at')
-    //         ->paginate(10);
-
-    //     return view('search.results', compact('users', 'posts', 'query'));
-    // }
 }
