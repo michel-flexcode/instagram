@@ -51,9 +51,9 @@
             @forelse ($post->comments as $comment)
                 <div class="flex bg-white rounded-md shadow p-4 space-x-4">
                     <div class="flex justify-start items-start h-full">
-                        {{-- <x-avatar class="h-10 w-10" :user="$comment->user" /> --}}
-                        <img src="{{ asset($comment->user->profile_photo) }}"
-                            alt="{{ $comment->user->name }}'s profile photo" class="w-6 h-6 rounded-full">
+                        <x-avatar class="h-10 w-10" :user="$comment->user" />
+                        {{-- <img src="{{ asset($comment->user->profile_photo) }}"
+                            alt="{{ $comment->user->name }}'s profile photo" class="w-6 h-6 rounded-full"> --}}
                     </div>
                     <div class="flex flex-col justify-center">
                         <div class="text-gray-700">
