@@ -2,13 +2,13 @@
     <div class="flex items-center justify-center">
 
         <div class="text-center">
-            <h1 class="text-4xl font-bold mb-6">Liste des posts index blade php</h1>
+            <h1 class="text-4xl font-bold mb-6">Liste des posts</h1>
 
             <!-- Search Bar -->
             <div class="flex items-center justify-center mb-4">
                 <form action="{{ route('posts.index') }}" method="GET">
 
-                    <input type="text" name="search" id="search" placeholder="Rechercher un post"
+                    <input type="text" name="search" id="search" placeholder="Rechercher un post / user"
                         class="border border-gray-300 rounded shadow px-4 py-2 mr-4" value="{{ request()->search }}"
                         autofocus />
                     <button type="submit" class="bg-white text-gray-600 px-4 py-2 rounded-lg shadow">
