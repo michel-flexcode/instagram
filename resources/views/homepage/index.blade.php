@@ -6,7 +6,8 @@
             <p class="text-lg mb-8">Découvrez et partagez des mèmes hilarants.</p>
 
             {{-- Image de test --}}
-            <img src="{{ asset('storage/defaulttest.jpeg') }}" alt="Image petite fille maison en feu" class="w-full max-w-md mx-auto rounded-md shadow-lg">
+            <img src="{{ asset('storage/defaulttest.jpeg') }}" alt="Image petite fille maison en feu"
+                class="w-full max-w-md mx-auto rounded-md shadow-lg">
 
             {{-- Formulaire de connexion --}}
             <div class="mt-8">
