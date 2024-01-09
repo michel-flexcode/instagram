@@ -225,7 +225,7 @@ class PostController extends Controller
         $mergedPosts = $postsFollowed->merge($postsAll)->unique('id');
 
         // Paginate the merged and sorted posts
-        $paginatedPosts = $this->paginateCollection($mergedPosts, 10);
+        $paginatedPosts = $this->paginateCollection($mergedPosts, 4);
 
         return view('posts.index', ['posts' => $paginatedPosts]);
     }
